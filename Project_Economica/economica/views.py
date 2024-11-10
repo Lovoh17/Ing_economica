@@ -43,3 +43,41 @@ def conversion_intereses(request):
 
 def acerca_de(request):
     return render(request, 'acerca_de.html')
+
+def convertir_tasa(request):
+    resultado_nominal_a_efectiva = None
+    resultado_efectiva_a_nominal = None
+
+    if request.method == 'POST':
+        # Obtener los datos del formulario de Nominal a Efectiva
+        if 'tasa_nominal' in request.POST:  # Formulario para convertir de Nominal a Efectiva
+            tasa_nominal = float(request.POST.get('tasa_nominal'))
+            frecuencia_interes = int(request.POST.get('frecuencia_interes'))
+            frecuencia_capitalizacion = int(request.POST.get('frecuencia_capitalizacion'))
+
+            # Número de periodos por año (frecuencia)
+            n_interes = frecuencia_interes
+            n_capitalizacion = frecuencia_capitalizacion
+
+            # Convertir de tasa nominal a efectiva
+            tasa_efectiva_resultado = (1 + tasa_nominal / 100 / n_capitalizacion) ** n_interes - 1
+            resultado_nominal_a_efectiva = f"Tasa efectiva: {tasa_efectiva_resultado * 100:.4f}%"
+        
+        # Obtener los datos del formulario de Efectiva a Nominal
+        elif 'tasa_efectiva' in request.POST:  # Formulario para convertir de Efectiva a Nominal
+            tasa_efectiva = float(request.POST.get('tasa_efectiva'))
+            frecuencia_interes_efectiva = int(request.POST.get('frecuencia_interes_efectiva'))
+            frecuencia_capitalizacion_efectiva = int(request.POST.get('frecuencia_capitalizacion_efectiva'))
+
+            # Número de periodos por año (frecuencia)
+            n_interes = frecuencia_interes_efectiva
+            n_capitalizacion = frecuencia_capitalizacion_efectiva
+
+            # Convertir de tasa efectiva a nominal usando la fórmula correcta
+            tasa_nominal_resultado = n_capitalizacion * ((1 + tasa_efectiva / 100) ** (1 / n_interes) - 1)
+            resultado_efectiva_a_nominal = f"Tasa nominal: {tasa_nominal_resultado * 100:.4f}%"
+
+    return render(request, 'conversion_tasas.html', {
+        'resultado_nominal_a_efectiva': resultado_nominal_a_efectiva,
+        'resultado_efectiva_a_nominal': resultado_efectiva_a_nominal
+    })

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Conversión de Tasas de Interés{% endblock %}
+
+{% block content %}
+    <div class="container my-5">
+        <h2 class="text-center">Conversión de Tasas de Interés</h2>
+        
+        <!-- Formulario de Tasa Nominal a Tasa Efectiva -->
+        <h3>Tasa Nominal a Tasa Efectiva</h3>
+        <form method="POST" id="form_nominal_a_efectiva">
+            {% csrf_token %}
+            
+            <!-- Tasa de interés nominal (%) -->
+            <div class="mb-3">
+                <label for="tasa_nominal" class="form-label">Tasa de interés nominal (%):</label>
+                <input type="number" class="form-control" id="tasa_nominal" name="tasa_nominal" step="0.01" required>
+            </div>
+            
+            <!-- Frecuencia de interés -->
+            <div class="mb-3">
+                <label for="frecuencia_interes" class="form-label">Frecuencia de interés (por año):</label>
+                <select class="form-select" id="frecuencia_interes" name="frecuencia_interes" required>
+                    <option value="365">Diario</option>
+                    <option value="360">Anual (360 días)</option>
+                    <option value="180">Semestral</option>
+                    <option value="120">Cuatrimestral</option>
+                    <option value="60">Bimestral</option>
+                    <option value="30">Mensual</option>
+                    <option value="15">Quincenal</option>
+                    <option value="7">Semanal</option>
+                </select>
+            </div>
+
+            <!-- Frecuencia de capitalización -->
+            <div class="mb-3">
+                <label for="frecuencia_capitalizacion" class="form-label">Frecuencia de capitalización (por año):</label>
+                <select class="form-select" id="frecuencia_capitalizacion" name="frecuencia_capitalizacion" required>
+                    <option value="365">Diario</option>
+                    <option value="360">Anual (360 días)</option>
+                    <option value="180">Semestral</option>
+                    <option value="120">Cuatrimestral</option>
+                    <option value="60">Bimestral</option>
+                    <option value="30">Mensual</option>
+                    <option value="15">Quincenal</option>
+                    <option value="7">Semanal</option>
+                </select>
+            </div>
+        
+            <button type="submit" class="btn btn-primary">Convertir</button>
+        </form>
+        
+        <!-- Mostrar el resultado para Tasa Nominal a Tasa Efectiva -->
+        {% if resultado_nominal_a_efectiva %}
+            <div class="alert alert-info mt-4">
+                <h4>Resultado de Nominal a Efectiva:</h4>
+                <p>{{ resultado_nominal_a_efectiva }}</p>
+            </div>
+        {% endif %}
+
+        <!-- Formulario de Tasa Efectiva a Tasa Nominal -->
+        <h3>Tasa Efectiva a Tasa Nominal</h3>
+        <form method="POST" id="form_efectiva_a_nominal">
+            {% csrf_token %}
+            
+            <!-- Tasa de interés efectiva (%) -->
+            <div class="mb-3">
+                <label for="tasa_efectiva" class="form-label">Tasa de interés efectiva (%):</label>
+                <input type="number" class="form-control" id="tasa_efectiva" name="tasa_efectiva" step="0.01" required>
+            </div>
+            
+            <!-- Frecuencia de interés -->
+            <div class="mb-3">
+                <label for="frecuencia_interes_efectiva" class="form-label">Frecuencia de interés (por año):</label>
+                <select class="form-select" id="frecuencia_interes_efectiva" name="frecuencia_interes_efectiva" required>
+                    <option value="365">Diario</option>
+                    <option value="360">Anual (360 días)</option>
+                    <option value="180">Semestral</option>
+                    <option value="120">Cuatrimestral</option>
+                    <option value="90">Trimestral</option>
+                    <option value="60">Bimestral</option>
+                    <option value="30">Mensual</option>
+                    <option value="15">Quincenal</option>
+                    <option value="7">Semanal</option>
+                </select>
+            </div>
+
+            <!-- Frecuencia de capitalización -->
+            <div class="mb-3">
+                <label for="frecuencia_capitalizacion_efectiva" class="form-label">Frecuencia de capitalización (por año):</label>
+                <select class="form-select" id="frecuencia_capitalizacion_efectiva" name="frecuencia_capitalizacion_efectiva" required>
+                    <option value="365">Diario</option>
+                    <option value="360">Anual (360 días)</option>
+                    <option value="180">Semestral</option>
+                    <option value="120">Cuatrimestral</option>
+                    <option value="90">Trimestral</option>
+                    <option value="60">Bimestral</option>
+                    <option value="30">Mensual</option>
+                    <option value="15">Quincenal</option>
+                    <option value="7">Semanal</option>
+                </select>
+            </div>
+        
+            <button type="submit" class="btn btn-primary">Convertir</button>
+        </form>
+
+        <!-- Mostrar el resultado para Tasa Efectiva a Tasa Nominal -->
+        {% if resultado_efectiva_a_nominal %}
+            <div class="alert alert-info mt-4">
+                <h4>Resultado de Efectiva a Nominal:</h4>
+                <p>{{ resultado_efectiva_a_nominal }}</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
