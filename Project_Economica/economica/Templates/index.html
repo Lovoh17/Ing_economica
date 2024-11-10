@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Calculadora de Ingeniería Económica{% endblock %}
+
+{% block content %}
+    <!-- Encabezado -->
+    <header class="text-center">
+        <h1 class="display-4">Calculadora de Ingeniería Económica</h1>
+        <p>Realiza cálculos financieros de manera sencilla y rápida</p>
+    </header>
+
+    <!-- Contenedor Principal -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 form-container">
+                <h2 class="text-center">Cálculo de Valor Futuro</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="capital_inicial" class="form-label">Capital Inicial ($)</label>
+                        <input type="number" class="form-control" id="capital_inicial" name="capital_inicial" step="any" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tasa_interes" class="form-label">Tasa de Interés Anual (%)</label>
+                        <input type="number" class="form-control" id="tasa_interes" name="tasa_interes" step="any" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tiempo" class="form-label">Tiempo (años)</label>
+                        <input type="number" class="form-control" id="tiempo" name="tiempo" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Calcular</button>
+                </form>
+
+                <!-- Mostrar resultados -->
+                {% if resultado %}
+                    <div class="result">
+                        <h4 class="text-center">Resultado:</h4>
+                        <p>El valor futuro de un capital de ${{ capital_inicial }} con una tasa de interés anual del {{ tasa_interes }}% durante {{ tiempo }} años es: <strong>${{ resultado }}</strong></p>
+                    </div>
+                {% endif %}
+                
+                {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
